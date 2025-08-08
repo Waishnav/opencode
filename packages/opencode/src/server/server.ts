@@ -20,6 +20,7 @@ import { callTui, TuiRoute } from "./tui"
 import { Permission } from "../permission"
 import { lazy } from "../util/lazy"
 import { Agent } from "../agent/agent"
+import { AuthOpenAI } from "../auth/openai"
 
 const ERRORS = {
   400: {
@@ -79,6 +80,18 @@ export namespace Server {
           })
         }
       })
+      .get(
+        "/auth/callback",
+        async (c) => {
+          const code = c.req.query("code")
+          const state = c.req.query("state")
+          if (code && state) {
+            AuthOpenAI.receiveCallback(state, code)
+            return c.html("<html><body><p>Signed in. You can close this tab.</p></body></html>")
+          }
+          return c.text("Invalid callback", 400)
+        },
+      )
       .get(
         "/doc",
         openAPISpecs(app, {

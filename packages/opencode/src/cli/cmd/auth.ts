@@ -1,6 +1,7 @@
 import { AuthAnthropic } from "../../auth/anthropic"
 import { AuthCopilot } from "../../auth/copilot"
 import { Auth } from "../../auth"
+import { AuthOpenAI } from "../../auth/openai"
 import { cmd } from "./cmd"
 import * as prompts from "@clack/prompts"
 import open from "open"
@@ -260,6 +261,37 @@ export const AuthLoginCommand = cmd({
         prompts.outro("Done")
         return
       }
+    }
+
+    if (provider === "openai") {
+      const method = await prompts.select({
+        message: "Login method",
+        options: [
+          {
+            label: "ChatGPT Pro/Plus",
+            value: "chatgpt",
+          },
+          {
+            label: "Manually enter API Key",
+            value: "api",
+          },
+        ],
+      })
+      if (prompts.isCancel(method)) throw new UI.CancelledError()
+
+      if (method === "chatgpt") {
+        // small delay to avoid early process exit on some environments
+        await new Promise((resolve) => setTimeout(resolve, 10))
+        try {
+          await AuthOpenAI.loginViaChatGPT()
+          prompts.log.success("Login successful - API key created and saved")
+        } catch (e) {
+          prompts.log.error("Login failed")
+        }
+        prompts.outro("Done")
+        return
+      }
+      // if "api", fall through to manual entry section below
     }
 
     const copilot = await AuthCopilot()
