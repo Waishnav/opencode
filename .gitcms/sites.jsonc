@@ -1,0 +1,11 @@
+{
+  "version": 1,
+  "sites": [
+    {
+      "key": "web",
+      "display_name": "Web",
+      "website_url": "https://opencode.ai",
+      "root_path": "packages/web"
+    }
+  ]
+}

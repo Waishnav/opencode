@@ -1,0 +1,80 @@
+{
+  "version": "1.2",
+  "media": {
+    "default_library": "repo_media",
+    "libraries": [
+      {
+        "key": "repo_media",
+        "label": "Repository media",
+        "references": {
+          "write": {
+            "mode": "root_relative",
+            "base_path": "/"
+          },
+          "allow_default_library_fallback": true
+        },
+        "limits": {
+          "max_file_size_mb": 10
+        },
+        "driver": "git",
+        "storage": {
+          "root_path": "public"
+        }
+      }
+    ]
+  },
+  "ssg_framework": "astro",
+  "frontmatter_format": "yaml",
+  "sitemap_url": "https://opencode.ai/sitemap.xml",
+  "publishing_mode": "editorial_workflow",
+  "i18n": {
+    "enabled": true,
+    "locales": [
+      "en",
+      "ar",
+      "bs",
+      "da",
+      "de",
+      "es",
+      "fr",
+      "it",
+      "ja",
+      "ko",
+      "nb",
+      "pl",
+      "pt-br",
+      "ru",
+      "th",
+      "tr",
+      "zh-cn",
+      "zh-tw"
+    ],
+    "default_locale": "en",
+    "prefix_default_locale": false
+  },
+  "collections": [
+    {
+      "name": "docs",
+      "git_path": "/src/content/docs/",
+      "file_extension": ".mdx",
+      "filename_pattern": "",
+      "collection_type": "grouped",
+      "i18n": {
+        "enabled": true,
+        "strategy": "path"
+      },
+      "frontmatter_schema": [
+        {
+          "name": "title",
+          "type": "title",
+          "label": "Title"
+        },
+        {
+          "name": "description",
+          "type": "richtext",
+          "label": "Description"
+        }
+      ]
+    }
+  ]
+}
